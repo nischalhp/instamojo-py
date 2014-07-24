@@ -31,8 +31,8 @@ class Instamojo:
         response = self._api_call(method='get', path='offer/%s/' % slug)
         return response
 
-    def offer_create(self, title, # Title is not optional
-                     base_price, currency, # Pricing, is compulsory.
+    def offer_create(self, title, # Title is compulsory 
+                     base_price, currency, # Pricing is compulsory.
                      description=None, # Basic
                      quantity=None, # Quantity
                      start_date=None, end_date=None, venue=None, timezone=None, # Event
@@ -124,12 +124,12 @@ class Instamojo:
 
         # Picks up the right function to call (such as requests.get() for 'get')
         api_call = getattr(requests, method)
-        req = api_call(api_path, data=kwargs, headers=headers)
+        res = api_call(api_path, data=kwargs, headers=headers)
 
         try:
-            return json.loads(req.text)
+            return json.loads(res.text)
         except:
-            raise Exception('Unable to decode response. Expected JSON, got this: \n\n\n %s' % req.text)
+            raise Exception('Unable to decode response. Expected JSON, got this: \n\n\n %s' % res.text)
 
     def _get_file_upload_url(self):
         """Gets signed upload URL from server, use this to upload file."""
