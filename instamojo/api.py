@@ -43,6 +43,14 @@ class Instamojo:
                      cover_image=None, # Cover image to associate with offer
                      ):
 
+        # except when compulsory parameters aren't passed
+        if len(title.strip()) == 0 or len(base_price.strip()) == 0 or len(currency.strip()) == 0: 
+            raise ValueError('Missing required parameters')
+
+        # except if base_price < 9
+        if float(base_price) < 9.0:
+            raise ValueError('The price needs to be at least INR. 9.00')
+
         file_upload_json = self._upload_if_needed(upload_file)
         cover_image_json = self._upload_if_needed(cover_image)
 
